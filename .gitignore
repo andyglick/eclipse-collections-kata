@@ -1,5 +1,5 @@
-target
-build
+target/
+build/
 .maven
 .gradle
 eclipse-collections-kata-parent.userlibraries
@@ -10,3 +10,10 @@ bin
 .settings
 .classpath
 .project
+
+
+.idea/
+*.eml
+*.iml
+*.ipr
+*.iws
