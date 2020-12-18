@@ -1,5 +1,16 @@
-Eclipse Collections Pet Kata
-============================
+<!--
+  ~ Copyright (c) 2018 Goldman Sachs and others.
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the Eclipse Public License v1.0
+  ~ and Eclipse Distribution License v. 1.0 which accompany this distribution.
+  ~ The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+  ~ and the Eclipse Distribution License is available at
+  ~ http://www.eclipse.org/org/documents/edl-v10.php.
+  -->
+![Diagram](../shared/eclipse-collections-logo.png) <!-- .element style="background-color:aliceblue" -->
+
+Pet Kata
+========
 
 Learning through exercises
 
@@ -9,14 +20,11 @@ Learning through exercises
 
 
 
-Pet Kata domain
-===============
- * Eclipse Collections Pet Kata uses `Person`, `Pet`, `PetType`
- * Domain objects are initialized in `PetDomainForKata` class
- * Data is available to you through `this.people` which has some person and pet objects set for you
-
-
-<img src="pet-domain.png" alt="Kata Domain" style="width: 55%;"/>
+### Pet Kata domain
+ * Domain objects are initialized in ```PetDomainForKata```
+ * Data is available to you through ```this.people``` 
+ 
+![Diagram](pet-domain.png) <!-- .element style="width:40%;background-color:aliceblue" -->
 
 
 
@@ -41,7 +49,7 @@ Collect Pattern (legacy for loop)
 
 ```java
 List<Pet> pets = someCodeToGetPets();
-List<String> petNames = new ArrayList<String>();
+List<String> petNames = new ArrayList<>();
 for (Pet pet : pets)
 {
   petNames.add(pet.getName());
@@ -76,6 +84,22 @@ Select Pattern
  * __`Predicate`__ is the type that takes an object and returns a boolean.
 
 
+Select Pattern (legacy for loop)
+---------------------------------
+
+```java
+List<Person> people = someCodeToGetPeople();
+List<Person> petPeople = new ArrayList<>();
+for (Person person : people)
+{
+  if (person.isPetPerson())
+  {
+    petPeople.add(person);
+  }
+}
+```
+
+
 Select Pattern
 --------------
 (Eclipse Collections)
@@ -87,7 +111,7 @@ MutableList<Person> people = someCodeToGetPeople();
 
 Lambda
 ```java
-MutableList<Person> petPeople =
+MutableList<Person> petPeople = 
   people.select(person -> person.isPetPerson());
 ```
 
@@ -181,7 +205,7 @@ TestUtils
  * Eclipse Collections distribution includes `eclipse-collections-testutils.jar`.
    * Includes helpful utility for writing unit tests.
    * Collection specific.
-   * Implemented as an extention of JUnit.
+   * Implemented as an extension of JUnit.
    * Better error messages.
    * Most important class is called `Verify`.
 
@@ -249,22 +273,18 @@ More Iteration Patterns
   * **`noneSatisfy`** returns true if no elements satisfy the `Predicate`.
 
 
-Inheritance Hierarchy (List)
-----------------------------
+### Inheritance Hierarchy (List)
 * `MutableList` extends `List`
 * `FastList` is a drop-in replacement for `ArrayList`
 
+![Diagram](../shared/inheritance-hierarchy-list.png) <!-- .element style="width:35%;background-color:aliceblue" -->
 
-<img src="../shared/inheritance-hierarchy-list.png" alt="Inheritance Hierarchy (List)" style="width: 45%;"/>
 
-
-Inheritance Hierarchy (Set)
-----------------------------
+### Inheritance Hierarchy (Set)
 * `MutableSet` extends `Set`
 * `UnifiedSet` is a drop-in replacement for `HashSet`
 
-
-<img src="../shared/inheritance-hierarchy-set.png" alt="Inheritance Hierarchy (Set)" style="width: 45%;"/>
+![Diagram](../shared/inheritance-hierarchy-set.png) <!-- .element style="width:35%;background-color:aliceblue" -->
 
 
 With Methods
@@ -403,11 +423,11 @@ public void getPeopleWithPets()
 ```
 
 
-Get all pets of all people
---------------------------
+Get all PetTypes of all people
+------------------------------
 ```java
 @Test
-public void getAllPetsOfAllPeople()
+public void getAllPetTypesOfAllPeople()
 {
   Function<Person, Iterable<PetType>> function = person -> person.getPetTypes();
   MutableSet<PetType> petTypes = this.people.flatCollect(function, Sets.mutable.empty());
@@ -513,7 +533,7 @@ Bag
 ```java
 MutableList<Person> people = ...;
 MutableList<PetType> pets = people.flatCollect(Person::getPetTypes);
-MutableMap<PetType, Integer> petTypeCounts = UnifiedMap.newMap();
+MutableMap<PetType, Integer> petTypeCounts = Maps.mutable.empty();
 // ???
 int cats = petTypeCounts.get(PetType.CAT);
 ```
@@ -523,7 +543,7 @@ Bag
 ---
 
 ```java
-MutableMap<PetType, Integer> petTypeCounts = UnifiedMap.newMap();
+MutableMap<PetType, Integer> petTypeCounts = Maps.mutable.empty();
 for (PetType petType : pets)
 {
   Integer count = petTypeCounts.get(petType);
@@ -567,7 +587,7 @@ Bag
 
 ```java
 MutableBag<String> bag =
-  HashBag.newBagWith("one", "two", "two", "three", "three", "three");
+  Bags.mutable.with("one", "two", "two", "three", "three", "three");
 
 Assert.assertEquals(3, bag.occurrencesOf("three"));
 
@@ -592,7 +612,7 @@ Multimap
 ```java
 MutableList<Person> people = ...;
 MutableMap<String, MutableList<Person>> lastNamesToPeople =
-  UnifiedMap.newMap();
+  Maps.mutable.empty();
 // ???
 MutableList<Person> smiths = lastNamesToPeople.get("Smith");
 ```
@@ -605,7 +625,7 @@ Multimap
 
 ```java
 MutableMap<String, MutableList<Person>> lastNamesToPeople =
-  UnifiedMap.newMap();
+  Maps.mutable.empty();
 
 for (Person person : people)
 {
@@ -615,7 +635,7 @@ for (Person person : people)
 
   if (peopleWithLastName == null)
   {
-    peopleWithLastName = FastList.newList();
+    peopleWithLastName = Lists.mutable.empty();
     lastNamesToPeople.put(lastName, peopleWithLastName);
   }
   peopleWithLastName.add(person);
@@ -658,7 +678,7 @@ Multimap
 
 ```java
 MutableListMultimap<String, Person> multimap =
-  FastListMultimap.newMultimap();
+  Multimaps.mutable.list.empty();
 multimap.put("Smith", person);
 multimap.put("Smith", person);
 MutableList<Person> smiths = multimap.get("Smith");
@@ -673,7 +693,7 @@ Multimap
 
 ```java
 MutableSetMultimap<String, Person> multimap =
-  UnifiedSetMultimap.newMultimap();
+  Multimaps.mutable.set.empty();
 multimap.put("Smith", person);
 multimap.put("Smith", person);
 MutableSet<Person> smiths = multimap.get("Smith");
@@ -712,7 +732,7 @@ Target Collections
 
 ```java
 MutableSet<Person> people =
-  UnifiedSet.newSetWith(mrSmith, mrsSmith, mrJones);
+  Sets.mutable.with(mrSmith, mrsSmith, mrJones);
 
 int numAddresses =
   people.collect(Person::getAddress).size();
@@ -738,9 +758,9 @@ Target Collections
 
 ```java
 MutableSet<Person> people =
-  UnifiedSet.newSetWith(mrSmith, mrsSmith, mrJones);
+  Sets.mutable.with(mrSmith, mrsSmith, mrJones);
 
-MutableList<Address> targetList = FastList.newList();
+MutableList<Address> targetList = Lists.mutable.empty();
 
 int numAddresses =
   people.collect(Person::getAddress, targetList).size();
@@ -769,10 +789,8 @@ Get counts by pet type
 @Test
 public void getCountsByPetType()
 {
-  MutableList<PetType> petTypes =
-    this.people.flatCollect(Person::getPets).collect(Pet::getType);
-
-  MutableBag<PetType> counts = petTypes.toBag();
+  MutableBag<PetType> counts =
+    this.people.flatCollect(Person::getPets).countBy(Pet::getType);
 
   Assert.assertEquals(2, counts.occurrencesOf(PetType.CAT));
   Assert.assertEquals(2, counts.occurrencesOf(PetType.DOG));
@@ -806,8 +824,8 @@ public void getPeopleByTheirPets()
 {
   MutableSetMultimap<PetType, Person> peopleByPetType =
     this.people.groupByEach(
-      person -> person.getPetTypes(),
-	  UnifiedSetMultimap.newMultimap());
+      Person::getPetTypes,
+	  Multimaps.mutable.set.empty());
 
   Verify.assertIterableSize(2, peopleByPetType.get(PetType.CAT));
   Verify.assertIterableSize(2, peopleByPetType.get(PetType.DOG));
@@ -842,14 +860,13 @@ Primitive Collections
 ---------------------
 All 8 primitive collection interfaces
 
-<img src="../shared/primitive-collections1.png" alt="Primitive Collections" style="width: 100%;"/>
+![Diagram](../shared/primitive-collections1.png) <!-- .element style="background-color:aliceblue" -->
 
 
 Primitive Collections
 ---------------------
-Class Diagram
 
-<img src="../shared/primitive-collections2.png" alt="Primitive Collections" style="width: 75%;"/>
+![Diagram](../shared/primitive-collections2.png) <!-- .element style="width:75%;background-color:aliceblue" -->
 
 
 Primitive Collections
@@ -890,32 +907,36 @@ Get age statistics of pets
 @Test
 public void getAgeStatisticsOfPets()
 {
-  // Try to use a MutableIntList here instead.
+  // Try to use a MutableIntList here instead
   // Hints: flatMap = flatCollect, map = collect, mapToInt = collectInt
-  IntList agesLazy = this.people.asLazy()
-    .flatCollect(Person::getPets)
-    .collectInt(Pet::getAge)
-    .toList();
-  // Try to use an IntSet here instead.
-  IntSet uniqueAges = agesLazy.toSet();
+  MutableIntList petAges = this.people
+      .flatCollect(Person::getPets)
+      .collectInt(Pet::getAge);
+
+  // Try to use an IntSet here instead
+  IntSet uniqueAges = petAges.toSet();
+
   // IntSummaryStatistics is a class in JDK 8 - Try and use it with MutableIntList.forEach().
   IntSummaryStatistics stats = new IntSummaryStatistics();
-  agesLazy.forEach(stats::accept);
+  petAges.forEach(stats::accept);
+
   // Is a Set<Integer> equal to an IntSet?
-  // Hint: Try IntSets instead of Sets as the factory.
-  Assert.assertEquals(IntHashSet.newSetWith(1, 2, 3, 4), uniqueAges);
-  // Try to leverage min, max, sum, average from the Eclipse Collections Primitive API.
-  Assert.assertEquals(stats.getMin(), agesLazy.min());
-  Assert.assertEquals(stats.getMax(), agesLazy.max());
-  Assert.assertEquals(stats.getSum(), agesLazy.sum());
-  Assert.assertEquals(stats.getAverage(), agesLazy.average(), 0.0);
-  Assert.assertEquals(stats.getCount(), agesLazy.size());
+  // Hint: Try IntSets instead of Sets as the factory
+  Assert.assertEquals(IntSets.immutable.of(1, 2, 3, 4), uniqueAges);
+
+  // Try to leverage min, max, sum, average from the Eclipse Collections Primitive API
+  Assert.assertEquals(stats.getMin(), petAges.min());
+  Assert.assertEquals(stats.getMax(), petAges.max());
+  Assert.assertEquals(stats.getSum(), petAges.sum());
+  Assert.assertEquals(stats.getAverage(), petAges.average(), 0.0);
+  Assert.assertEquals(stats.getCount(), petAges.size());
+
   // Hint: Match = Satisfy
-  Assert.assertTrue(agesLazy.allSatisfy(IntPredicates.greaterThan(0)));
-  Assert.assertTrue(agesLazy.allSatisfy(i -> i > 0));
-  Assert.assertFalse(agesLazy.anySatisfy(i -> i == 0));
-  Assert.assertTrue(agesLazy.noneSatisfy(i -> i < 0));
-  Assert.assertEquals(2.0d, agesLazy.median(), 0.0);
+  Assert.assertTrue(petAges.allSatisfy(IntPredicates.greaterThan(0)));
+  Assert.assertTrue(petAges.allSatisfy(i -> i > 0));
+  Assert.assertFalse(petAges.anySatisfy(i -> i == 0));
+  Assert.assertTrue(petAges.noneSatisfy(i -> i < 0));
+  Assert.assertEquals(2.0d, petAges.median(), 0.0);
 }
 ```
 
@@ -926,11 +947,13 @@ Stream to EC refactor #1
 @Test
 public void streamsToECRefactor1()
 {
-  // Find Bob Smith.
+  // Find Bob Smith
   Person person = this.people.detect(each -> each.named("Bob Smith"));
 
   // Get Bob Smith's pets' names
-  String names = person.getPets().collect(Pet::getName).makeString(" & ");
+  String names = person.getPets()
+    .collect(Pet::getName)
+    .makeString(" & ");
 
   Assert.assertEquals("Dolly & Spot", names);
 }
@@ -943,12 +966,12 @@ Stream to EC refactor #2
 @Test
 public void streamsToECRefactor2()
 {
-  // Hint: Try to replace the Map<PetType, Long> with a Bag<PetType>.
+  // Hint: Try to replace the Map<PetType, Long> with a Bag<PetType>
   MutableBag<PetType> counts = this.people
     .asUnmodifiable()
     .flatCollect(Person::getPets)
-    .collect(Pet::getType)
-    .toBag();
+    .countBy(Pet::getType);
+
   Assert.assertEquals(2, counts.occurrencesOf(PetType.CAT));
   Assert.assertEquals(2, counts.occurrencesOf(PetType.DOG));
   Assert.assertEquals(2, counts.occurrencesOf(PetType.HAMSTER));
@@ -965,14 +988,13 @@ Stream to EC refactor #3
 @Test
 public void streamsToECRefactor3()
 {
-  // Hint: The result of groupingBy/counting can almost always be replaced by a Bag.
-  // Hint: Look for the API on Bag that might return the top 3 pet types.
+  // Hint: The result of groupingBy/counting can almost always be replaced by a Bag
+  // Hint: Look for the API on Bag that might return the top 3 pet types
   MutableList<ObjectIntPair<PetType>> favorites = this.people
-    .asLazy()
     .flatCollect(Person::getPets)
-    .collect(Pet::getType)
-    .toBag()
+    .countBy(Pet::getType)
     .topOccurrences(3);
+
   Verify.assertSize(3, favorites);
   Verify.assertContains(PrimitiveTuples.pair(PetType.CAT, 2), favorites);
   Verify.assertContains(PrimitiveTuples.pair(PetType.DOG, 2), favorites);
@@ -997,7 +1019,9 @@ Partition pet and non pet people
 @Test
 public void partitionPetAndNonPetPeople()
 {
-  PartitionMutableList<Person> partitionMutableList = this.people.partition(eachPerson -> eachPerson.isPetPerson());
+  PartitionMutableList<Person> partitionMutableList = this.people
+    .partition(Person::isPetPerson);
+
   Verify.assertSize(7, partitionMutableList.getSelected());
   Verify.assertSize(1, partitionMutableList.getRejected());
 }
@@ -1010,7 +1034,10 @@ Get oldest pet
 @Test
 public void getOldestPet()
 {
-  Pet oldestPet = this.people.flatCollect(Person::getPets).maxBy(pet -> pet.getAge());
+  Pet oldestPet = this.people
+    .flatCollect(Person::getPets)
+    .maxBy(pet -> pet.getAge());
+
   Assert.assertEquals(PetType.DOG, oldestPet.getType());
   Assert.assertEquals(4, oldestPet.getAge());
 }
@@ -1023,7 +1050,11 @@ Get average pet age
 @Test
 public void getAveragePetAge()
 {
-  double averagePetAge = this.people.flatCollect(Person::getPets).collectDouble(Pet::getAge).average();
+  double averagePetAge = this.people
+    .flatCollect(Person::getPets)
+    .collectDouble(pet -> pet.getAge())
+    .average();
+
   Assert.assertEquals(1.8888888888888888, averagePetAge, 0.00001);
 }
 ```
@@ -1037,7 +1068,10 @@ public void addPetAgesToExistingSet()
 {
   // Hint: Use petAges as a target collection
   MutableIntSet petAges = IntSets.mutable.with(5);
-  this.people.flatCollect(Person::getPets).collectInt(pet -> pet.getAge(), petAges);
+
+  this.people.flatCollect(Person::getPets)
+    .collectInt(pet -> pet.getAge(), petAges);
+
   Assert.assertEquals(IntSets.mutable.with(1, 2, 3, 4, 5), petAges);
 }
 ```
@@ -1049,25 +1083,29 @@ Refactor to Eclipse Collections
 @Test
 public void refactorToEclipseCollections()
 {
-  // Replace List and ArrayList with Eclipse Collections types.
+  // Replace List and ArrayList with Eclipse Collections types
   MutableList<Person> people = Lists.mutable.with(
     new Person("Mary", "Smith").addPet(PetType.CAT, "Tabby", 2),
     new Person("Bob", "Smith")
-      .addPet(PetType.CAT, "Dolly", 3)
-      .addPet(PetType.DOG, "Spot", 2),
+        .addPet(PetType.CAT, "Dolly", 3)
+        .addPet(PetType.DOG, "Spot", 2),
     new Person("Ted", "Smith").addPet(PetType.DOG, "Spike", 4),
     new Person("Jake", "Snake").addPet(PetType.SNAKE, "Serpy", 1),
     new Person("Barry", "Bird").addPet(PetType.BIRD, "Tweety", 2),
     new Person("Terry", "Turtle").addPet(PetType.TURTLE, "Speedy", 1),
     new Person("Harry", "Hamster")
-      .addPet(PetType.HAMSTER, "Fuzzy", 1)
-      .addPet(PetType.HAMSTER, "Wuzzy", 1),
-    new Person("John", "Doe"));
+        .addPet(PetType.HAMSTER, "Fuzzy", 1)
+        .addPet(PetType.HAMSTER, "Wuzzy", 1),
+    new Person("John", "Doe")
+  );
 
-  // Replace Set and HashSet with Eclipse Collections types.
-  MutableIntSet petAges = people.flatCollect(Person::getPets).collectInt(Pet::getAge).toSet();
+  // Replace Set and HashSet with Eclipse Collections types
+  MutableIntSet petAges = people
+    .flatCollect(Person::getPets)
+    .collectInt(pet -> pet.getAge())
+    .toSet();
 
-  // Extra bonus - convert to a primitive collection.
+  // Extra bonus - convert to a primitive collection
   Assert.assertEquals(IntSets.mutable.with(1, 2, 3, 4), petAges);
 }
 ```

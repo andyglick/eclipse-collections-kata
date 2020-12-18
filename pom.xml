@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2017 Goldman Sachs.
+  ~ Copyright (c) 2020 Goldman Sachs and others.
   ~ All rights reserved. This program and the accompanying materials
   ~ are made available under the terms of the Eclipse Public License v1.0
   ~ and Eclipse Distribution License v. 1.0 which accompany this distribution.
@@ -33,154 +33,107 @@
 
   <inceptionYear>2007</inceptionYear>
 
-  <licenses>
-    <license>
-      <name>Eclipse Public License - v 1.0</name>
-      <url>https://www.eclipse.org/legal/epl-v10.html</url>
-      <distribution>repo</distribution>
-    </license>
-    <license>
-      <name>Eclipse Distribution License - v 1.0</name>
-      <url>https://www.eclipse.org/licenses/edl-v10.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Eclipse Public License - v 1.0</name>
+            <url>https://www.eclipse.org/legal/epl-v10.html</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>Eclipse Distribution License - v 1.0</name>
+            <url>https://www.eclipse.org/licenses/edl-v10.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <scm>
-    <url>https://github.com/eclipse/eclipse-collections-kata</url>
-    <connection>scm:git:https://github.com/eclipse/eclipse-collections-kata.git</connection>
-    <developerConnection>scm:git:https://github.com/eclipse/eclipse-collections-kata.git</developerConnection>
-  </scm>
+    <scm>
+        <url>https://github.com/eclipse/eclipse-collections-kata</url>
+        <connection>scm:git:https://github.com/eclipse/eclipse-collections-kata.git</connection>
+        <developerConnection>scm:git:https://github.com/eclipse/eclipse-collections-kata.git</developerConnection>
+    </scm>
 
-  <developers>
-    <developer>
-      <name>Nikhil Nanivadekar</name>
-      <email>nikhil.nanivadekar@gs.com</email>
-    </developer>
+    <developers>
+        <developer>
+            <name>Nikhil Nanivadekar</name>
+            <email>nikhil.nanivadekar@bnymellon.com</email>
+        </developer>
 
-    <developer>
-      <name>Kristen O'Leary</name>
-      <email>kristen.oleary@gs.com</email>
-    </developer>
+        <developer>
+            <name>Kristen O'Leary</name>
+        </developer>
 
-    <developer>
-      <name>Mohammad A. Rezaei</name>
-      <email>mohammad.rezaei@gs.com</email>
-    </developer>
+        <developer>
+            <name>Mohammad A. Rezaei</name>
+        </developer>
 
-    <developer>
-      <name>Donald Raab</name>
-      <email>donald.raab@bnymellon.com</email>
-    </developer>
+        <developer>
+            <name>Donald Raab</name>
+            <email>donald.raab@bnymellon.com</email>
+        </developer>
 
-    <developer>
-      <name>Craig P. Motlin</name>
-    </developer>
+        <developer>
+            <name>Craig P. Motlin</name>
+        </developer>
 
-    <developer>
-      <name>Hiroshi Ito</name>
-    </developer>
+        <developer>
+            <name>Hiroshi Ito</name>
+        </developer>
 
-  </developers>
+    </developers>
 
-  <prerequisites>
-    <maven>${maven.version}</maven>
-  </prerequisites>
+    <modules>
+        <module>company-kata</module>
+        <module>pet-kata</module>
+        <module>candy-kata</module>
+        <module>pet-kata-solutions</module>
+        <module>candy-kata-solutions</module>
+        <module>company-kata-solutions</module>
+    </modules>
 
-  <properties>
-    <eclipse.collections.version>8.2.0</eclipse.collections.version>
-    <java.version>1.8</java.version>
-    <junit.version>4.12</junit.version>
+    <properties>
+        <eclipse.collections.version>10.4.0</eclipse.collections.version>
+        <junit.version>4.12</junit.version>
+        <maven.compiler.fork>true</maven.compiler.fork>
+        <maven.compiler.maxmem>2048m</maven.compiler.maxmem>
+        <maven.compiler.meminitial>2048m</maven.compiler.meminitial>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.verbose>true</maven.compiler.verbose>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven.compiler.fork>true</maven.compiler.fork>
-    <maven.compiler.verbose>true</maven.compiler.verbose>
-    <maven.compiler.meminitial>2048m</maven.compiler.meminitial>
-    <maven.compiler.maxmem>2048m</maven.compiler.maxmem>
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+    </build>
 
-    <maven.version>3.5.0</maven.version>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.eclipse.collections</groupId>
+                <artifactId>eclipse-collections-api</artifactId>
+                <version>${eclipse.collections.version}</version>
+            </dependency>
 
-    <openclover.version>4.2.0</openclover.version>
+            <dependency>
+                <groupId>org.eclipse.collections</groupId>
+                <artifactId>eclipse-collections</artifactId>
+                <version>${eclipse.collections.version}</version>
+            </dependency>
 
-    <project.encoding>UTF-8</project.encoding>
-    <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+            <dependency>
+                <groupId>org.eclipse.collections</groupId>
+                <artifactId>eclipse-collections-testutils</artifactId>
+                <version>${eclipse.collections.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-    <surefire.reportFormat>plain</surefire.reportFormat>
-    <surefire.useFile>false</surefire.useFile>
-    <surefire.version>2.20</surefire.version>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
 
-  </properties>
+        </dependencies>
+    </dependencyManagement>
 
-  <modules>
-    <module>company-kata</module>
-    <module>pet-kata</module>
-  </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.openclover</groupId>
-        <artifactId>clover</artifactId>
-        <version>${openclover.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.collections</groupId>
-        <artifactId>eclipse-collections-api</artifactId>
-        <version>${eclipse.collections.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.collections</groupId>
-        <artifactId>eclipse-collections</artifactId>
-        <version>${eclipse.collections.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.collections</groupId>
-        <artifactId>eclipse-collections-testutils</artifactId>
-        <version>${eclipse.collections.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${surefire.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.1</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-help-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>2.4</version>
-      </plugin>
-    </plugins>
-  </build>
 </project>
